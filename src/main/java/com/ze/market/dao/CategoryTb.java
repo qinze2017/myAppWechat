@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @program: market
- * @description: object
+ * @description: Category
  * @author: Ze QIN
  * @create: 2020-05-21 21:51
  **/
