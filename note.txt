@@ -1,0 +1,119 @@
+To set mirror :
+.m2/settings.xml
+
+
+Server log frameworks : 
+
+Interfaces :
+SLF4j
+JCL (-)
+jboss-logging (no)
+
+Realises:
+Logback
+JUL (no)
+Log4j (no)
+Log4j2 (so Best)
+
+
+Logback :
+application.yml
+logback-spring.xml
+
+- separate info log and error log
+- create a log everyday
+
+application.properties
+application.yml
+
+enum:
+ERROR(40, "ERROR"),
+WARN(30, "WARN"),
+INFO(20,"INFO"),
+DEBUG(10,"DEBUG"),
+TRACE(0,"TRACE")
+
+FilterReply:
+DENY,
+NEUTRAL,
+ACCEPT
+
+application.properties
+ex :
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://192.168.2.50:3306/sell?characterEncoding=utf-8&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.jpa.show-sql=true
+
+server.servlet.context-path=/sell
+
+#logging:
+#logging.pattern.console="%d - %msg%n"
+#logging.file.name=D:/project/spring/var/log/sell.log
+#logging.level.root=debug
+#logging.level.com.ze.market.LoggerTest=debug
+
+
+logback-spring.xml :
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+        <!--rolling strategy-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--path-->
+            <fileNamePattern>D:/project/spring/var/log/info.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %msg%n
+            </pattern>
+        </encoder>
+        <!--rolling strategy-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--path-->
+            <fileNamePattern>D:/project/spring/var/log/error.%d.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <root>
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileInfoLog" />
+        <appender-ref ref="fileErrorLog" />
+    </root>
+
+</configuration>
+
+
+Replace get and set methods :
+@DynamicUpdate
+@Data (@Get | @Set)
+	<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
