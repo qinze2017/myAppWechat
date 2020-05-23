@@ -31,10 +31,11 @@ public class CategoryTb {
 
     private Date updateTime;
 
-    public CategoryTb(String categoryName, Integer categoryType, Date createTime, Date updateTime) {
+    public CategoryTb() {
+    }
+
+    public CategoryTb(String categoryName, Integer categoryType) {
         this.categoryName = categoryName;
         this.categoryType = categoryType;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
     }
 }

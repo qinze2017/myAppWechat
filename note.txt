@@ -111,9 +111,12 @@ logback-spring.xml :
 
 
 Replace get and set methods :
-@DynamicUpdate
-@Data (@Get | @Set)
+@DynamicUpdate (To update the differents)
+@Data (@Get | @Set | ToString)
 	<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+
+ @Transactional need to use with public method
