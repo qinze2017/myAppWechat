@@ -122,6 +122,9 @@ Replace get and set methods :
  @Transactional need to use with public method
 
 
+ifconfig
+ip add
+shutdown -h now
 Set cookie :
 document.cookie='openid=123'
 change ip :
