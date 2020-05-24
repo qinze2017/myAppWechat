@@ -122,5 +122,14 @@ Replace get and set methods :
  @Transactional need to use with public method
 
 
-Set cookie from console:
+Set cookie :
 document.cookie='openid=123'
+change ip :
+ssh root@192.168.2.XXX
+vim /usr/local/nginx/conf/nginx.conf
+nginx -s reload
+
+Modify hosts :
+C:\Windows\System32\drivers\etc
+C:\> notepad somefile.txt
+

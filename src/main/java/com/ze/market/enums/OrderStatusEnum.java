@@ -3,17 +3,19 @@ package com.ze.market.enums;
 import lombok.Getter;
 
 @Getter
-public enum ProductStatusEnum {
-    ON(0, "On shelf"),
-    OFF(1,"Off shelf")
+public enum OrderStatusEnum {
+    New(0, "new order"),
+    FINISHED(1, "finished"),
+    CANCEL(2, "canceld"),
     ;
 
     private Integer code;
 
     private String msg;
 
-    ProductStatusEnum(Integer code, String msg) {
+    OrderStatusEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
+
 }
