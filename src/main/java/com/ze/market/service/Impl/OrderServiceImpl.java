@@ -3,6 +3,7 @@ package com.ze.market.service.Impl;
 import com.ze.market.dao.OrderDetail;
 import com.ze.market.dao.OrderTb;
 import com.ze.market.dao.ProductTb;
+import com.ze.market.dto.CartDTO;
 import com.ze.market.dto.OrderDTO;
 import com.ze.market.enums.ResultEnum;
 import com.ze.market.exception.SellException;
@@ -16,9 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: market
@@ -39,10 +44,12 @@ public class OrderServiceImpl implements OrderService  {
     private OrderTbRepository orderTbRepository;
 
     @Override
+    @Transactional
     public OrderDTO create(OrderDTO orderDTO) {
 
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
         String orderId = KeyUtil.createUniqueKey();
+        //List<CartDTO> cartDTOList = new ArrayList<>();
 
         // search product (numbers and pay)
         for (OrderDetail orderDetail : orderDTO.getOrderDetailList()) {
@@ -59,6 +66,9 @@ public class OrderServiceImpl implements OrderService  {
             orderDetail.setOrderId(orderId);
             BeanUtils.copyProperties(productTb, orderDetail);
             orderDetailRepository.save(orderDetail);
+
+            //CartDTO cartDTO = new CartDTO(orderDetail.getProductId(), orderDetail.getProductQuantity());
+            //cartDTOList.add(cartDTO);
         };
 
         // write into database (orderTb and orderDetail)
@@ -67,9 +77,15 @@ public class OrderServiceImpl implements OrderService  {
         orderTb.setOrderAmount(orderAmount);
         BeanUtils.copyProperties(orderDTO, orderTb);
         orderTbRepository.save(orderTb);
-        // reduce numbers of products
 
-        return null;
+        // reduce numbers of products
+        List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream().map(e ->
+                new CartDTO(e.getProductId(), e.getProductQuantity())
+        ).collect(Collectors.toList());
+
+        productService.decreaseStock(cartDTOList);
+
+        return orderDTO;
     }
 
     @Override

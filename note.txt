@@ -136,3 +136,4 @@ Modify hosts :
 C:\Windows\System32\drivers\etc
 C:\> notepad somefile.txt
 
+6-5

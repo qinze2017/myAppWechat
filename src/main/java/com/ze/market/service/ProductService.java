@@ -1,6 +1,7 @@
 package com.ze.market.service;
 
 import com.ze.market.dao.ProductTb;
+import com.ze.market.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,5 +17,8 @@ public interface ProductService {
 
     ProductTb save(ProductTb productTb);
 
+    void increaseStock(List<CartDTO> cartDTOList);
+
+    void decreaseStock(List<CartDTO> cartDTOList);
 
 }

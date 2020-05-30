@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ResultEnum {
     PRODUCT_NOT_EXIST(10, "product not exist"),
+    PRODUCT_STOCK_ERROR(11, "stock not correct")
     ;
 
     private Integer code;
