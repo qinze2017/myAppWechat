@@ -31,6 +31,10 @@ public class OrderDTO {
 
     private BigDecimal orderAmount;
 
+    private Integer orderStatus;
+
+    private Integer payStatus;
+
     private Date createTime;
 
     private Date updateTime;

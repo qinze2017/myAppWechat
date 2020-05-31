@@ -2,16 +2,15 @@ package com.ze.market.service;
 
 import com.ze.market.dto.OrderDTO;
 import org.springframework.data.domain.Page;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
 
         OrderDTO create(OrderDTO orderDTO);
 
-        OrderDTO findOne(String OrderId);
+        OrderDTO findOne(String orderId);
 
-        Page<OrderDTO> findList(String buyerOpenid, Pageable pageable);
+        Page<OrderDTO> findList(String buyerWechat, Pageable pageable);
 
         OrderDTO cancel(OrderDTO orderDTO);
 

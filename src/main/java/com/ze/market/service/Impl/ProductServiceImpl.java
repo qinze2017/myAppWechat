@@ -51,6 +51,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void increaseStock(List<CartDTO> cartDTOList) {
 
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductTb productTb = repository.findById(cartDTO.getProductId()).orElse(new ProductTb());
+            if (productTb == null) {
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer result = productTb.getProductStock() + cartDTO.getProductQuantity();
+            productTb.setProductStock(result);
+
+            repository.save(productTb);
+        }
     }
 
     @Override
@@ -59,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         for(CartDTO cartDTO: cartDTOList) {
             ProductTb productTb = repository.findById(cartDTO.getProductId()).orElse(new ProductTb());
             if (productTb == null) {
-                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST)
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
 
             Integer result = productTb.getProductStock() - cartDTO.getProductQuantity();
