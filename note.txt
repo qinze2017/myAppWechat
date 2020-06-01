@@ -136,4 +136,7 @@ Modify hosts :
 C:\Windows\System32\drivers\etc
 C:\> notepad somefile.txt
 
-6-5
+@JsonInclude(JsonInclude.Include.NON_NULL)
+=>   jackon:
+    default-property-inclusion: non_null
+@JsonSerialize(using = XXX.class)

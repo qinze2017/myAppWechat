@@ -7,6 +7,7 @@ import com.ze.market.dto.OrderDTO;
 import com.ze.market.enums.ResultEnum;
 import com.ze.market.exception.SellException;
 import com.ze.market.form.OrderForm;
+import com.ze.market.service.BuyerService;
 import com.ze.market.service.OrderService;
 import com.ze.market.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.transform.Result;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     // create order
     @PostMapping("/create")
@@ -64,21 +69,33 @@ public class BuyerOrderController {
 
     //list order
     @GetMapping("/list")
-    public ResultVO<List<OrderDetail>> list(@RequestParam("webchat") String webchat,
+    public ResultVO<List<OrderDetail>> list(@RequestParam("wechat") String wechat,
                                             @RequestParam(value = "page", defaultValue = "0") Integer page,
                                             @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        if(StringUtils.isEmpty(webchat)) {
+        if(StringUtils.isEmpty(wechat)) {
             log.error("webchar number is empty");
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
 
         PageRequest request = PageRequest.of(page, size);
-        Page<OrderDTO> orderDTOPage = orderService.findList(webchat, request);
+        Page<OrderDTO> orderDTOPage = orderService.findList(wechat, request);
         return ResultVOUtil.success(orderDTOPage.getContent());
     }
 
     //order detail
+    @GetMapping("/detail")
+    public ResultVO<OrderDTO> detail(@RequestParam("wechat") String wechat,
+                                     @RequestParam("orderId") String orderId) {
+        OrderDTO orderDTO = buyerService.findOrderOne(wechat, orderId);
+        return ResultVOUtil.success(orderDTO);
+    }
 
     //cancel order
+    @PostMapping("/cancel")
+    public ResultVO cancel(@RequestParam("wechat") String wechat,
+                       @RequestParam("orderId") String orderId){
 
+        buyerService.cancelOrder(wechat,orderId);
+        return ResultVOUtil.success();
+    }
 }

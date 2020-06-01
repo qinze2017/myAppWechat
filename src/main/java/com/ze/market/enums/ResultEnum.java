@@ -14,6 +14,7 @@ public enum ResultEnum {
     ORDER_PAY_STATUS_ERROR(17, "order pay status has error"),
     PARAM_ERROR(1, "parameters are not correct"),
     CART_EMPTY(18, "cart is empty"),
+    ORDER_OWNER_ERROR(19, "wrong owner info"),
     ;
 
     private Integer code;
